@@ -1,5 +1,5 @@
 const express = require("express");
-const { validation, ctrlWrapper } = require("../../middlewares");
+const { validation, ctrlWrapper, auth } = require("../../middlewares");
 const { contactShema, favoriteJoiSchema } = require("../../schemas");
 const { contacts: ctrl } = require("../../controllers");
 
@@ -10,11 +10,11 @@ const router = express.Router();
 
 // request handler functions--------------------------------------
 
-router.get("/", ctrlWrapper(ctrl.getAll));
+router.get("/", auth, ctrlWrapper(ctrl.getAll));
 
 router.get("/:contactId", ctrlWrapper(ctrl.getById));
 
-router.post("/", validateMiddleware, ctrl.add);
+router.post("/", auth, validateMiddleware, ctrl.add);
 
 router.delete("/:contactId", ctrlWrapper(ctrl.removeById));
 
